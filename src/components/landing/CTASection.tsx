@@ -15,16 +15,6 @@ const CTASection = () => {
   const y = useTransform(scrollYProgress, [0, 1], ["5%", "-5%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.6], [0, 1, 1]);
 
-  function mulberry32(seed: number) {
-    return function () {
-      seed |= 0;
-      seed = (seed + 0x6d2b79f5) | 0;
-      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
-  }
-
   return (
     <section
       className="py-20 bg-gradient-to-r from-teal-600 to-cyan-600 relative overflow-hidden"
@@ -84,34 +74,6 @@ const CTASection = () => {
           }}
           className="absolute bottom-1/4 right-1/4 w-48 h-48 rounded-full bg-white"
         />
-      </div>
-
-      {/* Animated particles */}
-      <div className="absolute inset-0 overflow-hidden">
-        {Array.from({ length: 20 }).map((_, i) => {
-          const rand = mulberry32(i); // Seed with index
-          return (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 rounded-full bg-white"
-              initial={{
-                x: rand() * 100 + "%",
-                y: rand() * 100 + "%",
-                opacity: rand() * 0.5 + 0.1,
-                scale: rand() * 0.5 + 0.5,
-              }}
-              animate={{
-                y: [0, -20, 0],
-                opacity: [0.1, 0.3, 0.1],
-              }}
-              transition={{
-                duration: rand() * 5 + 5,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "reverse",
-              }}
-            />
-          );
-        })}
       </div>
 
       <motion.div
