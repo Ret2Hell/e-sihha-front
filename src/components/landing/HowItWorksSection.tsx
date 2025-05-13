@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { UserPlus, Calendar, Stethoscope, FileText } from "lucide-react";
+import Link from "next/link";
 
 const HowItWorksSection = () => {
   const ref = useRef(null);
@@ -142,14 +143,16 @@ const HowItWorksSection = () => {
           <p className="text-teal-700 font-medium">
             Ready to get started? It only takes a few minutes!
           </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="mt-4 px-6 py-3 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 relative overflow-hidden group"
-          >
-            <span className="relative z-10">Create Your Account</span>
-            <span className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-          </motion.button>
+          <Link href="/register">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="mt-4 px-6 py-3 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 relative overflow-hidden group"
+            >
+              <span className="relative z-10">Create Your Account</span>
+              <span className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+            </motion.button>
+          </Link>
         </motion.div>
       </motion.div>
     </section>

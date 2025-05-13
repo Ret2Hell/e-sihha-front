@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import Link from "next/link";
 
 const CTASection = () => {
   const ref = useRef(null);
@@ -117,9 +118,11 @@ const CTASection = () => {
               className="relative group"
             >
               <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
-              <Button className="relative bg-white text-teal-600 hover:bg-teal-50 border-0 shadow-lg">
-                Get Started
-              </Button>
+              <Link href="/register">
+                <Button className="relative bg-white text-teal-600 hover:bg-teal-50 border-0 shadow-lg">
+                  Get Started
+                </Button>
+              </Link>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button

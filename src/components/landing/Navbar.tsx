@@ -87,15 +87,19 @@ const Navbar = () => {
                 >
                   <nav className="flex flex-col p-4 space-y-4">
                     <div className="flex flex-col space-y-2 pt-2">
-                      <Button
-                        variant="outline"
-                        className="w-full border-teal-500 text-teal-600"
-                      >
-                        Log in
-                      </Button>
-                      <Button className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 border-0">
-                        Sign up
-                      </Button>
+                      <Link href="/login">
+                        <Button
+                          variant="outline"
+                          className="w-full border-teal-500 text-teal-600"
+                        >
+                          Log in
+                        </Button>
+                      </Link>
+                      <Link href="/register">
+                        <Button className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 border-0">
+                          Sign up
+                        </Button>
+                      </Link>
                     </div>
                   </nav>
                 </motion.div>
@@ -114,20 +118,24 @@ const Navbar = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button
-                  variant="outline"
-                  className="border-teal-500 text-teal-600"
-                >
-                  Log in
-                </Button>
+                <Link href="/login">
+                  <Button
+                    variant="outline"
+                    className="border-teal-500 text-teal-600"
+                  >
+                    Log in
+                  </Button>
+                </Link>
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 border-0">
-                  Sign up
-                </Button>
+                <Link href="/register">
+                  <Button className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 border-0">
+                    Sign up
+                  </Button>
+                </Link>
               </motion.div>
             </motion.div>
           </>

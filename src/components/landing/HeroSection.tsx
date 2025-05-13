@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import Link from "next/link";
 
 const HeroSection = () => {
   const ref = useRef(null);
@@ -93,22 +94,24 @@ const HeroSection = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button className="relative overflow-hidden group bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white border-0">
-                  <span className="relative z-10 flex items-center gap-2">
-                    Get Started
-                    <motion.div
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{
-                        repeat: Number.POSITIVE_INFINITY,
-                        duration: 1.5,
-                        ease: "easeInOut",
-                      }}
-                    >
-                      <ArrowRight className="h-4 w-4" />
-                    </motion.div>
-                  </span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                </Button>
+                <Link href="/register">
+                  <Button className="relative overflow-hidden group bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white border-0">
+                    <span className="relative z-10 flex items-center gap-2">
+                      Get Started
+                      <motion.div
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{
+                          repeat: Number.POSITIVE_INFINITY,
+                          duration: 1.5,
+                          ease: "easeInOut",
+                        }}
+                      >
+                        <ArrowRight className="h-4 w-4" />
+                      </motion.div>
+                    </span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-teal-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  </Button>
+                </Link>
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05 }}
