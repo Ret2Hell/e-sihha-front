@@ -1,8 +1,50 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, memo } from "react";
+import {
+  motion,
+  useInView,
+  useScroll,
+  useTransform,
+  animate,
+} from "framer-motion";
 import { Users, Calendar, Award, Building } from "lucide-react";
+
+const AnimatedNumberDisplay = memo(function AnimatedNumberDisplay({
+  targetValue,
+  duration = 2,
+  startAnimation,
+}: {
+  targetValue: number;
+  duration?: number;
+  startAnimation: boolean;
+}) {
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (startAnimation) {
+      const node = ref.current;
+      if (node) {
+        const currentValue = parseFloat(
+          node.textContent?.replace(/,/g, "") || "0"
+        );
+        const controls = animate(currentValue, targetValue, {
+          duration: duration,
+          onUpdate(value) {
+            node.textContent = Math.floor(value).toLocaleString();
+          },
+        });
+        return () => controls.stop();
+      }
+    } else {
+      if (ref.current) {
+        ref.current.textContent = "0";
+      }
+    }
+  }, [targetValue, duration, startAnimation]);
+
+  return <span ref={ref}>0</span>;
+});
 
 const StatsSection = () => {
   const ref = useRef(null);
@@ -15,69 +57,35 @@ const StatsSection = () => {
   const scale = useTransform(scrollYProgress, [0, 0.5], [0.9, 1]);
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
-  const [counts, setCounts] = useState({
-    users: 0,
-    appointments: 0,
-    doctors: 0,
-    hospitals: 0,
-  });
-
   const targetCounts = {
-    users: 100,
-    appointments: 100,
-    doctors: 100,
-    hospitals: 100,
+    users: 10000,
+    appointments: 50000,
+    doctors: 500,
+    hospitals: 20,
   };
 
-  useEffect(() => {
-    if (isInView) {
-      const duration = 2000;
-      const frameDuration = 1000 / 60;
-      const totalFrames = Math.round(duration / frameDuration);
-
-      let frame = 0;
-      const counter = setInterval(() => {
-        frame++;
-        const progress = frame / totalFrames;
-
-        setCounts({
-          users: Math.floor(progress * targetCounts.users),
-          appointments: Math.floor(progress * targetCounts.appointments),
-          doctors: Math.floor(progress * targetCounts.doctors),
-          hospitals: Math.floor(progress * targetCounts.hospitals),
-        });
-
-        if (frame === totalFrames) {
-          clearInterval(counter);
-        }
-      }, frameDuration);
-
-      return () => clearInterval(counter);
-    }
-  }, [isInView]);
-
-  const stats = [
+  const statsData = [
     {
       icon: <Users className="h-8 w-8 text-white" />,
-      value: counts.users.toLocaleString(),
+      target: targetCounts.users,
       label: "Active Users",
       color: "from-teal-500 to-cyan-500",
     },
     {
       icon: <Calendar className="h-8 w-8 text-white" />,
-      value: counts.appointments.toLocaleString(),
+      target: targetCounts.appointments,
       label: "Appointments Booked",
       color: "from-cyan-500 to-blue-500",
     },
     {
       icon: <Award className="h-8 w-8 text-white" />,
-      value: counts.doctors.toLocaleString(),
+      target: targetCounts.doctors,
       label: "Verified Doctors",
       color: "from-blue-500 to-indigo-500",
     },
     {
       icon: <Building className="h-8 w-8 text-white" />,
-      value: counts.hospitals.toLocaleString(),
+      target: targetCounts.hospitals,
       label: "Partner Hospitals",
       color: "from-indigo-500 to-purple-500",
     },
@@ -96,7 +104,7 @@ const StatsSection = () => {
         className="container px-4 md:px-6 relative z-10"
       >
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {stats.map((stat, index) => (
+          {statsData.map((stat, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -120,7 +128,10 @@ const StatsSection = () => {
                 className="relative"
               >
                 <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600 mb-1">
-                  {stat.value}
+                  <AnimatedNumberDisplay
+                    targetValue={stat.target}
+                    startAnimation={isInView}
+                  />
                 </div>
                 <div className="text-gray-600 text-sm">{stat.label}</div>
               </motion.div>

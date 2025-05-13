@@ -1,14 +1,33 @@
-import BenefitsSection from "@/components/landing/BenefitsSection";
-import CTASection from "@/components/landing/CTASection";
-import FeatureSection from "@/components/landing/FeatureSection";
+import dynamic from "next/dynamic";
 import Footer from "@/components/landing/Footer";
 import HeroSection from "@/components/landing/HeroSection";
-import HowItWorksSection from "@/components/landing/HowItWorksSection";
 import Navbar from "@/components/landing/Navbar";
 import ScrollProgress from "@/components/landing/ScrollProgress";
 import StatsSection from "@/components/landing/StatsSection";
-import TestimonialSection from "@/components/landing/TestimonialSection";
-import React from "react";
+
+const LoadingIndicator = () => (
+  <div style={{ textAlign: "center", padding: "20px" }}>Loading section...</div>
+);
+
+const FeatureSection = dynamic(
+  () => import("@/components/landing/FeatureSection"),
+  { loading: () => <LoadingIndicator /> }
+);
+const HowItWorksSection = dynamic(
+  () => import("@/components/landing/HowItWorksSection"),
+  { loading: () => <LoadingIndicator /> }
+);
+const BenefitsSection = dynamic(
+  () => import("@/components/landing/BenefitsSection"),
+  { loading: () => <LoadingIndicator /> }
+);
+const TestimonialSection = dynamic(
+  () => import("@/components/landing/TestimonialSection"),
+  { loading: () => <LoadingIndicator /> }
+);
+const CTASection = dynamic(() => import("@/components/landing/CTASection"), {
+  loading: () => <LoadingIndicator />,
+});
 
 const LandingPage = () => {
   return (

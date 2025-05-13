@@ -179,7 +179,7 @@ const HeroSection = () => {
                   className="w-full h-[400px]"
                 >
                   <Image
-                    src="/placeholder.jpeg?height=400&width=500"
+                    src="/placeholder.jpeg"
                     alt="e-Sihha Platform Interface"
                     width={500}
                     height={400}

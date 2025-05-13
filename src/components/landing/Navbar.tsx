@@ -34,9 +34,7 @@ const Navbar = () => {
   return (
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
-          ? "bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-sm"
-          : "bg-transparent"
+        scrolled ? "bg-white/90  backdrop-blur-md shadow-sm" : "bg-transparent"
       }`}
     >
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
@@ -77,13 +75,13 @@ const Navbar = () => {
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="absolute top-16 left-0 right-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg md:hidden z-50"
+                  className="absolute top-16 left-0 right-0 bg-white/90 backdrop-blur-md shadow-lg md:hidden z-50"
                 >
                   <nav className="flex flex-col p-4 space-y-4">
                     <div className="flex flex-col space-y-2 pt-2">
                       <Button
                         variant="outline"
-                        className="w-full border-teal-500 text-teal-600 dark:text-teal-400"
+                        className="w-full border-teal-500 text-teal-600"
                       >
                         Log in
                       </Button>
@@ -110,7 +108,7 @@ const Navbar = () => {
               >
                 <Button
                   variant="outline"
-                  className="border-teal-500 text-teal-600 dark:text-teal-400"
+                  className="border-teal-500 text-teal-600"
                 >
                   Log in
                 </Button>
