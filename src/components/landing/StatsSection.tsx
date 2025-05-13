@@ -46,6 +46,33 @@ const AnimatedNumberDisplay = memo(function AnimatedNumberDisplay({
   return <span ref={ref}>0</span>;
 });
 
+const statsData = [
+  {
+    icon: <Users className="h-8 w-8 text-white" />,
+    value: 10000,
+    label: "Active Users",
+    color: "from-teal-500 to-cyan-500",
+  },
+  {
+    icon: <Calendar className="h-8 w-8 text-white" />,
+    value: 50000,
+    label: "Appointments Booked",
+    color: "from-cyan-500 to-blue-500",
+  },
+  {
+    icon: <Award className="h-8 w-8 text-white" />,
+    value: 500,
+    label: "Verified Doctors",
+    color: "from-blue-500 to-indigo-500",
+  },
+  {
+    icon: <Building className="h-8 w-8 text-white" />,
+    value: 20,
+    label: "Partner Hospitals",
+    color: "from-indigo-500 to-purple-500",
+  },
+];
+
 const StatsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
@@ -56,40 +83,6 @@ const StatsSection = () => {
 
   const scale = useTransform(scrollYProgress, [0, 0.5], [0.9, 1]);
   const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-
-  const targetCounts = {
-    users: 10000,
-    appointments: 50000,
-    doctors: 500,
-    hospitals: 20,
-  };
-
-  const statsData = [
-    {
-      icon: <Users className="h-8 w-8 text-white" />,
-      target: targetCounts.users,
-      label: "Active Users",
-      color: "from-teal-500 to-cyan-500",
-    },
-    {
-      icon: <Calendar className="h-8 w-8 text-white" />,
-      target: targetCounts.appointments,
-      label: "Appointments Booked",
-      color: "from-cyan-500 to-blue-500",
-    },
-    {
-      icon: <Award className="h-8 w-8 text-white" />,
-      target: targetCounts.doctors,
-      label: "Verified Doctors",
-      color: "from-blue-500 to-indigo-500",
-    },
-    {
-      icon: <Building className="h-8 w-8 text-white" />,
-      target: targetCounts.hospitals,
-      label: "Partner Hospitals",
-      color: "from-indigo-500 to-purple-500",
-    },
-  ];
 
   return (
     <section className="py-16 bg-blue-50 relative overflow-hidden" ref={ref}>
@@ -129,7 +122,7 @@ const StatsSection = () => {
               >
                 <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600 mb-1">
                   <AnimatedNumberDisplay
-                    targetValue={stat.target}
+                    targetValue={stat.value}
                     startAnimation={isInView}
                   />
                 </div>

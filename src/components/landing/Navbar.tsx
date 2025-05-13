@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -44,7 +45,14 @@ const Navbar = () => {
           transition={{ duration: 0.5 }}
           className="flex items-center gap-2"
         >
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-1">
+            <Image
+              src="/logo.png"
+              alt="e-Sihha Logo"
+              width={32}
+              height={32}
+              className="h-10 w-10"
+            />
             <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">
               e-Sihha
             </span>

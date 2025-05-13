@@ -1,25 +1,20 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, ArrowRight } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const HeroSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
 
   return (
     <section ref={ref} className="relative py-20 md:py-32 overflow-hidden">
@@ -54,7 +49,7 @@ const HeroSection = () => {
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : -50 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
             className="flex flex-col justify-center space-y-4"
           >
@@ -149,7 +144,7 @@ const HeroSection = () => {
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: isVisible ? 1 : 0, x: isVisible ? 0 : 50 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
             className="flex justify-center lg:justify-end perspective-1000"
           >
