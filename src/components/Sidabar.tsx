@@ -19,12 +19,6 @@ import { useMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-interface SidebarProps {
-  className?: string;
-  isCollapsed: boolean;
-  onToggleCollapse: () => void;
-}
-
 export default function Sidebar({
   className,
   isCollapsed,

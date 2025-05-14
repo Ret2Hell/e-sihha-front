@@ -2,12 +2,6 @@
 
 import { Bell } from "lucide-react";
 
-interface NotificationItemProps {
-  title: string;
-  message: string;
-  time: string;
-}
-
 export default function NotificationItem({
   title,
   message,
