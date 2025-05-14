@@ -61,7 +61,7 @@ export const api = createApi({
   baseQuery: customBaseQuery,
   reducerPath: "api",
   tagTypes: [],
-  endpoints: (builder) => ({
+  endpoints: () => ({
     // Define your endpoints here
   }),
 });
