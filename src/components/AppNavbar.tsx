@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
 import NotificationDropdown from "./NotificationDropdown";
 
-export default function AppNavbar() {
+const AppNavbar: React.FC = () => {
   const { user } = useUser();
   const userRole = user?.publicMetadata?.role as "patient" | "doctor";
   const [scrolled, setScrolled] = useState(false);
@@ -61,4 +61,6 @@ export default function AppNavbar() {
       </div>
     </header>
   );
-}
+};
+
+export default AppNavbar;

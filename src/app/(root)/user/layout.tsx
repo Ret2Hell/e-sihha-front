@@ -1,12 +1,12 @@
 "use client";
 
 import AppNavbar from "@/components/AppNavbar";
-import Sidebar from "@/components/Sidabar";
+import Sidebar from "@/components/Sidebar";
 import { useMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 
-const AppLayout = ({ children }: { children: React.ReactNode }) => {
+const AppLayout: React.FC<LayoutProps> = ({ children }) => {
   const isMobile = useMobile();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 

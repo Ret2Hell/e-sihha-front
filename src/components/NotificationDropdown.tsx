@@ -1,5 +1,3 @@
-"use client";
-
 import { Bell } from "lucide-react";
 import {
   DropdownMenu,
@@ -13,22 +11,17 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import NotificationItem from "./NotificationItem";
 
-export default function NotificationDropdown() {
+const NotificationDropdown: React.FC = () => {
   const notifications = [
     {
       title: "Appointment Reminder",
-      message: "Your appointment with Dr. Smith is tomorrow at 10:00 AM",
+      message: "Your appointment with Dr. Mourad is tomorrow at 10:00 AM",
       time: "10 minutes ago",
     },
     {
-      title: "New Message",
-      message: "Dr. Jones sent you a new message.",
+      title: "Appointment Reminder",
+      message: "Your appointment with Dr. Mohamed is today at 2:00 PM",
       time: "1 hour ago",
-    },
-    {
-      title: "Lab Results Ready",
-      message: "Your lab results are now available.",
-      time: "Yesterday",
     },
   ];
   return (
@@ -37,7 +30,7 @@ export default function NotificationDropdown() {
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />
           <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center bg-teal-500 text-[10px]">
-            3
+            2
           </Badge>
         </Button>
       </DropdownMenuTrigger>
@@ -56,10 +49,12 @@ export default function NotificationDropdown() {
           ))}
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="justify-center text-center cursor-pointer">
+        <DropdownMenuItem className="justify-center text-center cursor-pointer hover:bg-gray-100 transition-colors">
           <span className="text-sm text-teal-600">View all notifications</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};
+
+export default NotificationDropdown;

@@ -9,10 +9,10 @@ import {
   Calendar,
   FileText,
   Users,
-  Settings,
   Menu,
   X,
   ChevronRight,
+  KeyRound,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMobile } from "@/hooks/use-mobile";
@@ -51,6 +51,11 @@ export default function Sidebar({
       path: "/user/dashboard",
     },
     {
+      name: "Doctors",
+      icon: <Users className="h-5 w-5" />,
+      path: "/user/doctors",
+    },
+    {
       name: "Appointments",
       icon: <Calendar className="h-5 w-5" />,
       path: "/user/appointments",
@@ -61,14 +66,9 @@ export default function Sidebar({
       path: "/user/records",
     },
     {
-      name: "Doctors",
-      icon: <Users className="h-5 w-5" />,
-      path: "/user/doctors",
-    },
-    {
-      name: "Settings",
-      icon: <Settings className="h-5 w-5" />,
-      path: "/user/settings",
+      name: "Token",
+      icon: <KeyRound className="h-5 w-5" />,
+      path: "/user/token",
     },
   ];
 

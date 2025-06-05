@@ -1,14 +1,12 @@
-"use client";
-
 import { Bell } from "lucide-react";
 
-export default function NotificationItem({
+const NotificationItem: React.FC<NotificationItemProps> = ({
   title,
   message,
   time,
-}: NotificationItemProps) {
+}) => {
   return (
-    <div className="flex items-start gap-3 py-3 cursor-pointer">
+    <div className="flex items-start gap-3 py-3 cursor-pointer hover:bg-gray-100 transition-colors">
       <div className="h-9 w-9 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
         <Bell className="h-4 w-4 text-teal-600" />
       </div>
@@ -19,4 +17,6 @@ export default function NotificationItem({
       </div>
     </div>
   );
-}
+};
+
+export default NotificationItem;
