@@ -36,3 +36,36 @@ export const getTypeIconName = (type: AppointmentType): string => {
 export const capitalizeStatus = (status: string): string => {
   return status.charAt(0).toUpperCase() + status.slice(1);
 };
+
+export const getAppointmentStatusColor = (status: "confirmed" | "pending") => {
+  return status === "confirmed"
+    ? "bg-green-100 text-green-700 hover:bg-green-200"
+    : "bg-yellow-100 text-yellow-700 hover:bg-yellow-200";
+};
+
+export const generateInitials = (name: string): string => {
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase();
+};
+
+export const formatTimeDisplay = (time: string, duration: number): string => {
+  return `${time} (${duration} min)`;
+};
+
+export const formatCurrency = (
+  amount: number,
+  currency: string = "DT"
+): string => {
+  return `${amount.toLocaleString()} ${currency}`;
+};
+
+export const calculateCompletionPercentage = (
+  completed: number,
+  total: number
+): number => {
+  if (total === 0) return 0;
+  return Math.round((completed / total) * 100);
+};

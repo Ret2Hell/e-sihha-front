@@ -1,12 +1,12 @@
 "use client";
 
 import AppNavbar from "@/components/AppNavbar";
-import UserSidebar from "@/components/UserSidebar";
+import DoctorSidebar from "@/components/DoctorSidebar";
 import { useMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 
-const AppLayout: React.FC<LayoutProps> = ({ children }) => {
+const DoctorLayout: React.FC<LayoutProps> = ({ children }) => {
   const isMobile = useMobile();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
@@ -27,7 +27,7 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <UserSidebar
+      <DoctorSidebar
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={handleToggleSidebarCollapse}
       />
@@ -44,4 +44,4 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
   );
 };
 
-export default AppLayout;
+export default DoctorLayout;

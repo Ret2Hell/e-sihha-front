@@ -11,11 +11,11 @@ export default clerkMiddleware(async (auth, req) => {
 
   if (userId) {
     const userRole =
-      (sessionClaims?.publicMetadata as { role?: "patient" | "doctor" })
-        ?.role || "patient";
+      (sessionClaims?.metadata as { role?: "patient" | "doctor" })?.role ||
+      "patient";
 
     if (isPublicRoute(req)) {
-      let redirectUrl = "/user/dashboard";
+      let redirectUrl = "/user/doctors";
       if (userRole === "doctor") {
         redirectUrl = "/doctor/dashboard";
       }
@@ -30,7 +30,7 @@ export default clerkMiddleware(async (auth, req) => {
 
     // 3. Role-based access control for doctor dashboard
     if (isDoctorDashboardRoute(req) && userRole !== "doctor") {
-      const redirectTo = new URL("/user/dashboard", req.url);
+      const redirectTo = new URL("/user/doctors", req.url);
       return NextResponse.redirect(redirectTo);
     }
 

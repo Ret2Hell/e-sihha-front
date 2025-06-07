@@ -1,8 +1,15 @@
 declare global {
+  interface MenuItem {
+    name: string;
+    icon: React.ReactNode;
+    path: string;
+  }
+
   interface SidebarProps {
     className?: string;
     isCollapsed: boolean;
     onToggleCollapse: () => void;
+    menuItems: MenuItem[];
   }
 
   interface NotificationItemProps {
@@ -223,11 +230,13 @@ declare global {
 
   export interface Appointment {
     id: string;
+    patientId: string;
+    patientName: string;
     doctorName: string;
     specialty: string;
     date: string;
     time: string;
-    status: "upcoming" | "completed" | "cancelled" | "rescheduled";
+    status: "upcoming" | "completed" | "cancelled" | "rescheduled" | "pending";
     type: "in-person" | "video";
     location?: string;
     notes?: string;
@@ -256,6 +265,312 @@ declare global {
 
   interface EmptyStateProps {
     type: "upcoming" | "history";
+  }
+
+  interface BaseSidebarProps {
+    className?: string;
+    isCollapsed: boolean;
+    onToggleCollapse: () => void;
+  }
+
+  type DoctorSidebarProps = BaseSidebarProps;
+
+  type UserSidebarProps = BaseSidebarProps;
+
+  interface MobileToggleProps {
+    onToggle: () => void;
+  }
+
+  interface NavigationProps {
+    menuItems: MenuItem[];
+    pathname: string;
+    isCollapsed: boolean;
+  }
+
+  interface MobileSidebarProps {
+    isOpen: boolean;
+    onClose: () => void;
+    menuItems: MenuItem[];
+    pathname: string;
+  }
+
+  interface SidebarHeaderProps {
+    isCollapsed: boolean;
+    onToggle: () => void;
+    showLogo?: boolean;
+  }
+
+  interface MobileOverlayProps {
+    isOpen: boolean;
+    onClose: () => void;
+  }
+
+  interface DesktopSidebarProps {
+    className?: string;
+    isCollapsed: boolean;
+    onToggle: () => void;
+    menuItems: MenuItem[];
+    pathname: string;
+  }
+
+  interface NavigationItemProps {
+    item: MenuItem;
+    isActive: boolean;
+    isCollapsed: boolean;
+  }
+
+  export interface DashboardStats {
+    todayAppointments: number;
+    totalPatients: number;
+    monthlyRevenue: number;
+    averageRating: number;
+    pendingAppointments: number;
+    completedToday: number;
+  }
+
+  interface DashboardHeaderProps {
+    doctorName: string;
+  }
+
+  interface TodayAppointmentsCardProps {
+    appointments: TodayAppointment[];
+  }
+
+  interface DashboardStatsType {
+    todayAppointments: number;
+    totalPatients: number;
+    monthlyRevenue: number;
+    averageRating: number;
+    pendingAppointments: number;
+    completedToday: number;
+  }
+
+  interface DashboardStatsProps {
+    stats: DashboardStatsType;
+  }
+
+  interface RecentPatient {
+    id: string;
+    name: string;
+    lastVisit: string;
+    condition: string;
+    status: "stable" | "monitoring" | "improving";
+  }
+
+  interface RecentPatientsCardProps {
+    patients: RecentPatient[];
+  }
+
+  interface TodayAppointment {
+    id: string;
+    patientName: string;
+    time: string;
+    type: string;
+    status: "confirmed" | "pending";
+    duration: number;
+  }
+
+  interface DashboardStatsCardProps {
+    title: string;
+    value: string | number;
+    subtitle: string;
+    icon: React.ReactNode;
+    colorClass: string;
+    delay?: number;
+  }
+
+  // Patient interfaces
+  interface Patient {
+    id: string;
+    name: string;
+    age: number;
+    gender: string;
+    phone: string;
+    email: string;
+    lastVisit: string;
+    nextAppointment?: string;
+    condition: string;
+    totalVisits: number;
+    address?: string;
+    insurance?: {
+      provider: string;
+      policyNumber: string;
+    };
+    medicalRecord: {
+      _id: string;
+      doctorId: string;
+      diagnosis: {
+        primary: string;
+        icd10: string;
+        date: string;
+      };
+      treatment: {
+        medications: Array<{
+          name: string;
+          dosage: string;
+          frequency: string;
+          startDate: string;
+          endDate: string | null;
+        }>;
+        procedures: Array<{
+          name: string;
+          date: string;
+          result: string;
+        }>;
+      };
+      labResults: {
+        bloodPressure: Array<{
+          date: string;
+          systolic: number;
+          diastolic: number;
+        }>;
+        cholesterol: Array<{
+          date: string;
+          total: number;
+          ldl: number;
+          hdl: number;
+          triglycerides: number;
+        }>;
+        bloodSugar: Array<{
+          date: string;
+          fasting: number;
+          hba1c: number;
+        }>;
+      };
+      notes: string[];
+      sharedWithDoctors: string[];
+    };
+    appointments: Array<{
+      date: string;
+      time: string;
+      type: string;
+      status: string;
+    }>;
+  }
+
+  export type PatientSortOption = "name" | "lastVisit" | "age" | "visits";
+
+  export interface PatientsFilterState {
+    searchTerm: string;
+    sortBy: PatientSortOption;
+    filteredPatients: Patient[];
+    hasActiveFilters: boolean;
+  }
+
+  export interface PatientsFilterActions {
+    handleSearch: (term: string) => void;
+    handleSort: (sort: string) => void;
+    clearFilters: () => void;
+  }
+
+  interface PatientCardProps {
+    patient: Patient;
+    index: number;
+  }
+
+  interface PatientsHeaderProps {
+    title: string;
+    description?: string;
+    children?: React.ReactNode;
+  }
+
+  interface PatientsFiltersProps {
+    searchTerm: string;
+    sortBy: string;
+    onSearch: (term: string) => void;
+    onSortChange: (sort: string) => void;
+  }
+
+  interface PatientsGridProps {
+    patients: Patient[];
+  }
+
+  interface EmptyPatientsStateProps {
+    onClearFilters: () => void;
+    hasFilters: boolean;
+  }
+
+  interface AppointmentsHistoryProps {
+    appointments: Patient["appointments"];
+  }
+
+  interface DoctorNotesProps {
+    notes: string[];
+    isEditingNotes: boolean;
+    newNote: string;
+    onNewNoteChange: (value: string) => void;
+    onStartEditing: () => void;
+    onSaveNote: () => void;
+    onCancelEditing: () => void;
+  }
+
+  interface LabResultCardProps {
+    title: string;
+    children: React.ReactNode;
+  }
+
+  interface LabResultsProps {
+    labResults: Patient["medicalRecord"]["labResults"];
+  }
+
+  interface CurrentDiagnosisProps {
+    diagnosis: Patient["medicalRecord"]["diagnosis"];
+  }
+
+  interface PatientHeaderProps {
+    patient: Patient;
+  }
+
+  interface InsuranceCardProps {
+    insurance?: Patient["insurance"];
+  }
+
+  interface PatientTabsProps {
+    patient: Patient;
+    notesProps: {
+      notes: string[];
+      isEditingNotes: boolean;
+      newNote: string;
+      onNewNoteChange: (value: string) => void;
+      onStartEditing: () => void;
+      onSaveNote: () => void;
+      onCancelEditing: () => void;
+    };
+  }
+
+  interface SharedAccessProps {
+    sharedWithDoctors: string[];
+  }
+
+  interface DoctorAppointmentCardProps {
+    appointment: Appointment;
+    index: number;
+    onStatusChange: (appointmentId: string, newStatus: string) => void;
+  }
+
+  interface DoctorAppointmentFiltersProps {
+    statusFilter: string;
+    typeFilter: string;
+    onStatusFilterChange: (value: string) => void;
+    onTypeFilterChange: (value: string) => void;
+  }
+
+  interface DoctorAppointmentHeaderProps {
+    title: string;
+    description: string;
+  }
+
+  interface DoctorAppointmentStatsProps {
+    appointments: Appointment[];
+  }
+
+  interface DoctorAppointmentTabsProps {
+    activeTab: string;
+    onTabChange: (tab: string) => void;
+    pendingAppointments: Appointment[];
+    upcomingAppointments: Appointment[];
+    pastAppointments: Appointment[];
+    onStatusChange: (appointmentId: string, newStatus: string) => void;
   }
 }
 

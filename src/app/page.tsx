@@ -45,7 +45,7 @@ const LandingPage = () => {
         if (userRole === "doctor") {
           return "/doctor/dashboard";
         }
-        return "/user/dashboard";
+        return "/user/doctors";
       };
       router.push(getRedirectUrl());
     }
