@@ -1,4 +1,4 @@
-import { Calendar, Users, BarChart3, KeyRound } from "lucide-react";
+import { Calendar, Users, BarChart3 } from "lucide-react";
 import Sidebar from "./Sidebar";
 
 export default function DoctorSidebar({
@@ -21,11 +21,6 @@ export default function DoctorSidebar({
       name: "Patients",
       icon: <Users className="h-5 w-5" />,
       path: "/doctor/patients",
-    },
-    {
-      name: "Token",
-      icon: <KeyRound className="h-5 w-5" />,
-      path: "/doctor/token",
     },
   ];
 

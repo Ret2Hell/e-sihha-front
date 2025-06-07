@@ -1,4 +1,4 @@
-import { Calendar, Users, KeyRound } from "lucide-react";
+import { Calendar, Users } from "lucide-react";
 import Sidebar from "./Sidebar";
 
 export default function UserSidebar({
@@ -16,11 +16,6 @@ export default function UserSidebar({
       name: "Appointments",
       icon: <Calendar className="h-5 w-5" />,
       path: "/user/appointments",
-    },
-    {
-      name: "Token",
-      icon: <KeyRound className="h-5 w-5" />,
-      path: "/user/token",
     },
   ];
 
