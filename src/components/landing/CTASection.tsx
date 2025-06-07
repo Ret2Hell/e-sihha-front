@@ -128,8 +128,9 @@ const CTASection = () => {
               <Button
                 variant="outline"
                 className="text-teal-600 border-white hover:bg-teal-700/20 hover:text-white backdrop-blur-sm"
+                asChild
               >
-                Contact Us
+                <Link href="/apply-doctor">Apply Doctor</Link>
               </Button>
             </motion.div>
           </motion.div>

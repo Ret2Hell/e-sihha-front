@@ -572,6 +572,97 @@ declare global {
     pastAppointments: Appointment[];
     onStatusChange: (appointmentId: string, newStatus: string) => void;
   }
+
+  interface Message {
+    id: string;
+    role: "user" | "assistant";
+    content: string;
+    timestamp: Date;
+    suggestions?: string[];
+    recommendation?: SpecialtyRecommendation;
+  }
+
+  interface SpecialtyRecommendation {
+    specialty: string;
+    reason: string;
+  }
+
+  interface MessageListProps {
+    messages: Message[];
+    isLoading: boolean;
+    scrollAreaRef: React.RefObject<HTMLDivElement | null>;
+    messagesEndRef: React.RefObject<HTMLDivElement | null>;
+  }
+
+  interface ChatInputProps {
+    inputMessage: string;
+    setInputMessage: (message: string) => void;
+    onSendMessage: () => void;
+    onKeyPress: (e: React.KeyboardEvent) => void;
+    isLoading: boolean;
+  }
+
+  interface SpecialtyRecommendationProps {
+    recommendation: SpecialtyRecommendation;
+  }
+
+  interface ChatMessageProps {
+    message: Message;
+  }
+
+  export interface DoctorApplicationFormData {
+    // Personal Information
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    dateOfBirth: string;
+    gender: string;
+
+    // Professional Information
+    licenseNumber: string;
+    licenseExpiryDate: string;
+    yearsOfExperience: string;
+    currentWorkplace: string;
+
+    // Education & Training
+    medicalSchool: string;
+    graduationYear: string;
+    residency: string;
+    fellowship: string;
+    certifications: string;
+
+    // Specialization
+    primarySpecialty: string;
+
+    // Practice Details
+    consultationFee: string;
+    consultationTypes: string[];
+    availableDays: string[];
+
+    // Final Details
+    bio: string;
+    achievements: string;
+    motivation: string;
+    termsAccepted: boolean;
+  }
+
+  export interface FormStepProps {
+    formData: DoctorApplicationFormData;
+    onFormChange: (
+      field: keyof DoctorApplicationFormData,
+      value: string | boolean
+    ) => void;
+    onCheckboxChange: (field: string, value: string) => void;
+    onRadioChange: (field: string, value: string) => void;
+    onSpecialtyChange: (specialty: string) => void;
+    onTermsChange: (checked: boolean) => void;
+  }
+
+  interface ProgressBarProps {
+    currentStep: number;
+    totalSteps: number;
+  }
 }
 
 export {};

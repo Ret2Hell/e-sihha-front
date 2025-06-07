@@ -1,5 +1,6 @@
 "use client";
 
+import AISymptomChecker from "@/components/AISymptomChecker";
 import AppNavbar from "@/components/AppNavbar";
 import UserSidebar from "@/components/UserSidebar";
 import { useMobile } from "@/hooks/use-mobile";
@@ -38,6 +39,7 @@ const AppLayout: React.FC<LayoutProps> = ({ children }) => {
         )}
       >
         <AppNavbar />
+        <AISymptomChecker />
         <main className="mx-auto px-4 py-6">{children}</main>
       </div>
     </div>

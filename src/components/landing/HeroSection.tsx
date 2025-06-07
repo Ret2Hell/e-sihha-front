@@ -120,8 +120,9 @@ const HeroSection = () => {
                 <Button
                   variant="outline"
                   className="border-teal-500 text-teal-600 hover:bg-teal-50"
+                  asChild
                 >
-                  Learn More
+                  <Link href="/apply-doctor">Apply as a Doctor</Link>
                 </Button>
               </motion.div>
             </motion.div>
