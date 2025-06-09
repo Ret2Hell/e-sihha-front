@@ -196,6 +196,15 @@ export const api = createApi({
       }),
       providesTags: (result, error, id) => [{ type: "Doctor", id }],
     }),
+
+    applyDoctor: builder.mutation({
+      query: (applicationData) => ({
+        url: "/doctors",
+        method: "POST",
+        body: applicationData,
+      }),
+      invalidatesTags: [{ type: "Doctor", id: "LIST" }],
+    }),
   }),
 });
 
@@ -210,4 +219,5 @@ export const {
   useCompleteAppointmentMutation,
   useGetDoctorsQuery,
   useGetDoctorByIdQuery,
+  useApplyDoctorMutation,
 } = api;

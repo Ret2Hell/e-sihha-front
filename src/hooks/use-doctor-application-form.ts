@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useApplyDoctorMutation } from "@/state/api";
 
 const initialFormData: DoctorApplicationFormData = {
   // Personal Information
@@ -42,6 +43,7 @@ export function useDoctorApplicationForm() {
     useState<DoctorApplicationFormData>(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [applyDoctor] = useApplyDoctorMutation();
 
   const handleFormChange = (
     field: keyof DoctorApplicationFormData,
@@ -87,14 +89,59 @@ export function useDoctorApplicationForm() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
-    // Simulate API call
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        setIsSubmitting(false);
-        setIsSubmitted(true);
-        resolve();
-      }, 2000);
-    });
+    try {
+      // Test data for doctor application
+      const testApplicationData = {
+        name: "Dr. John Smith",
+        email: "john.smith@exampleddd.com",
+        specialty: "Cardiology",
+        licenseNumber: "MD1234567855",
+        phone: "+1-555-123-4567",
+        address: "123 Medical Center Dr",
+        city: "New York",
+        state: "NY",
+        zipCode: "10001",
+        qualifications: ["MD", "Board Certified in Cardiology"],
+        bio: "Dr. Smith has over 10 years of experience in cardiology...",
+        workingHours: {
+          monday: {
+            start: "09:00",
+            end: "17:00",
+          },
+          tuesday: {
+            start: "09:00",
+            end: "17:00",
+          },
+          wednesday: {
+            start: "09:00",
+            end: "17:00",
+          },
+          thursday: {
+            start: "09:00",
+            end: "17:00",
+          },
+          friday: {
+            start: "09:00",
+            end: "17:00",
+          },
+          saturday: {
+            start: "09:00",
+            end: "17:00",
+          },
+          sunday: {
+            start: "09:00",
+            end: "17:00",
+          },
+        },
+      };
+
+      await applyDoctor(testApplicationData).unwrap();
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error("Failed to submit doctor application:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return {
