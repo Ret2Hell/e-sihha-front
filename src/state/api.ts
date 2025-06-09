@@ -21,6 +21,7 @@ const customBaseQuery = async (
 ) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+    credentials: "include",
     prepareHeaders: async (headers) => {
       if (typeof window !== "undefined" && window.Clerk) {
         const token = await getToken();
