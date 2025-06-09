@@ -13,7 +13,11 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Clock, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { generateInitials, getAppointmentStatusColor } from "@/lib/utils";
+import {
+  capitalizeStatus,
+  generateInitials,
+  getAppointmentStatusColor,
+} from "@/lib/utils";
 import React from "react";
 
 export default function TodayAppointmentsCard({
@@ -57,13 +61,13 @@ export default function TodayAppointmentsCard({
                   </h4>
                   <Badge
                     variant={
-                      appointment.status === "confirmed"
+                      appointment.status === "CONFIRMED"
                         ? "default"
                         : "secondary"
                     }
                     className={getAppointmentStatusColor(appointment.status)}
                   >
-                    {appointment.status}
+                    {capitalizeStatus(appointment.status)}
                   </Badge>
                 </div>
                 <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
@@ -72,9 +76,11 @@ export default function TodayAppointmentsCard({
                     <span>{appointment.time}</span>
                   </div>
                   <span>•</span>
-                  <span>{appointment.type}</span>
+                  <span>
+                    {appointment.type.toLocaleLowerCase().split("_").join("-")}
+                  </span>
                   <span>•</span>
-                  <span>{appointment.duration} min</span>
+                  <span>30 min</span>
                 </div>
               </div>
             </motion.div>

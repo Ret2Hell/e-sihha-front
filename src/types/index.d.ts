@@ -368,7 +368,7 @@ declare global {
     patientName: string;
     time: string;
     type: string;
-    status: "confirmed" | "pending";
+    status: "CONFIRMED" | "PENDING";
     duration: number;
   }
 

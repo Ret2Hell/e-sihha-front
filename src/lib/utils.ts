@@ -41,8 +41,8 @@ export const capitalizeStatus = (status: string): string => {
   return status.charAt(0) + status.slice(1).toLowerCase();
 };
 
-export const getAppointmentStatusColor = (status: "confirmed" | "pending") => {
-  return status === "confirmed"
+export const getAppointmentStatusColor = (status: "CONFIRMED" | "PENDING") => {
+  return status === "CONFIRMED"
     ? "bg-green-100 text-green-700 hover:bg-green-200"
     : "bg-yellow-100 text-yellow-700 hover:bg-yellow-200";
 };

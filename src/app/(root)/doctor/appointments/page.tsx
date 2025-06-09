@@ -14,6 +14,8 @@ import {
   useCompleteAppointmentMutation,
 } from "@/state/api";
 import { useUser } from "@clerk/nextjs";
+import { Card, CardContent } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
 
 export default function DoctorAppointmentsPage() {
   const { user } = useUser();
@@ -66,12 +68,12 @@ export default function DoctorAppointmentsPage() {
           title="Appointments"
           description="Manage your patient appointments and schedule"
         />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+        <Card>
+          <CardContent className="p-12 text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-teal-600" />
             <p className="text-muted-foreground">Loading appointments...</p>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -84,15 +86,14 @@ export default function DoctorAppointmentsPage() {
           title="Appointments"
           description="Manage your patient appointments and schedule"
         />
-        <div className="flex items-center justify-center h-64">
-          <div className="text-center">
-            <p className="text-destructive mb-2">Failed to load appointments</p>
-            <p className="text-muted-foreground text-sm">
-              Please try refreshing the page or contact support if the problem
-              persists.
+        <Card>
+          <CardContent className="p-12 text-center">
+            <p className="text-red-600 mb-4">Failed to load appointments</p>
+            <p className="text-muted-foreground">
+              Please try refreshing the page
             </p>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
