@@ -8,7 +8,7 @@ export const Navigation = ({
   return (
     <nav className="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
       {menuItems.map((item) => {
-        const isActive = pathname === item.path;
+        const isActive = pathname.startsWith(item.path);
 
         return (
           <NavigationItem

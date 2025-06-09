@@ -73,7 +73,7 @@ export default function ConfirmationStep({
             ) : (
               <>
                 <CreditCard className="h-5 w-5 mr-3" />
-                Confirm & Pay ${totalPrice}
+                Confirm & Pay {totalPrice} DT
               </>
             )}
           </Button>

@@ -15,7 +15,7 @@ import { motion } from "framer-motion";
 import { getInitials } from "@/lib/utils";
 
 export const DoctorCard: React.FC<DoctorCardProps> = ({ doctor, index }) => {
-  const isAvailableToday = doctor.availability === "Available Today";
+  const isAvailableToday = doctor.availability.isAvailable;
 
   return (
     <motion.div
@@ -42,11 +42,11 @@ export const DoctorCard: React.FC<DoctorCardProps> = ({ doctor, index }) => {
               <div className="flex items-center gap-4 mt-2">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Clock className="h-4 w-4" />
-                  <span>{doctor.experience} years experience</span>
+                  <span>10 years experience</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <MapPin className="h-4 w-4" />
-                  <span>{doctor.location}</span>
+                  <span>{doctor.address}</span>
                 </div>
               </div>
             </div>
@@ -62,13 +62,11 @@ export const DoctorCard: React.FC<DoctorCardProps> = ({ doctor, index }) => {
                   isAvailableToday ? "bg-green-100 text-green-700" : ""
                 }
               >
-                {doctor.availability}
+                {isAvailableToday ? "Available Today" : "Not Available Today"}
               </Badge>
             </div>
             <div className="text-right">
-              <div className="text-lg font-bold text-teal-600">
-                {doctor.price}DT
-              </div>
+              <div className="text-lg font-bold text-teal-600">80 DT</div>
               <div className="text-xs text-muted-foreground">
                 per consultation
               </div>

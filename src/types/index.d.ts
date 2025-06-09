@@ -23,12 +23,14 @@ declare global {
     name: string;
     specialty: string;
     experience: number;
-    location: string;
-    availability: string;
+    address: string;
+    availability: {
+      isAvailable: boolean;
+    };
     image?: string;
     price: number;
     education: string;
-    about: string;
+    bio: string;
     qualifications: string[];
     services: string[];
     workingHours: {
@@ -40,10 +42,9 @@ declare global {
       saturday: string;
       sunday: string;
     };
-    contact: {
-      phone: string;
-      email: string;
-    };
+
+    phone: string;
+    email: string;
   }
 
   export type SortOption = "experience" | "price-low" | "price-high";
@@ -102,7 +103,7 @@ declare global {
   }
 
   interface DoctorWorkingHoursProps {
-    workingHours: {
+    workingHours?: {
       monday: string;
       tuesday: string;
       wednesday: string;
@@ -236,7 +237,7 @@ declare global {
     specialty: string;
     date: string;
     time: string;
-    status: "upcoming" | "completed" | "cancelled" | "rescheduled" | "pending";
+    status: "CONFIRMED" | "COMPLETED" | "CANCELLED" | "PENDING";
     type: "in-person" | "video";
     location?: string;
     notes?: string;

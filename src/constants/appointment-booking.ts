@@ -2,18 +2,22 @@ import { User, Video } from "lucide-react";
 import React from "react";
 
 export const TIME_SLOTS = [
-  { time: "9:00 AM", available: true },
-  { time: "9:30 AM", available: true },
-  { time: "10:00 AM", available: false },
-  { time: "10:30 AM", available: true },
-  { time: "11:00 AM", available: true },
-  { time: "11:30 AM", available: false },
-  { time: "2:00 PM", available: true },
-  { time: "2:30 PM", available: true },
-  { time: "3:00 PM", available: true },
-  { time: "3:30 PM", available: false },
-  { time: "4:00 PM", available: true },
-  { time: "4:30 PM", available: true },
+  { time: "9:00", available: true },
+  { time: "9:30", available: true },
+  { time: "10:00", available: true },
+  { time: "10:30", available: true },
+  { time: "11:00", available: true },
+  { time: "11:30", available: true },
+  { time: "12:00", available: true },
+  { time: "12:30", available: true },
+  { time: "14:00", available: true },
+  { time: "14:30", available: true },
+  { time: "15:00", available: true },
+  { time: "15:30", available: true },
+  { time: "16:00", available: true },
+  { time: "16:30", available: true },
+  { time: "17:00", available: true },
+  { time: "17:30", available: true },
 ];
 
 export const CONSULTATION_TYPES = [

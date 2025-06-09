@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { doctors } from "@/data/doctors-data";
+import { useGetDoctorsQuery } from "@/state/api";
 import { useDoctorsFilter } from "@/hooks/use-doctors-filter";
 import {
   DoctorsHeader,
@@ -9,8 +9,12 @@ import {
   DoctorsGrid,
   EmptyDoctorsState,
 } from "@/components/doctors";
+import { Card, CardContent } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
 
 const DoctorsPage = () => {
+  const { data: doctors = [], isLoading, error } = useGetDoctorsQuery({});
+
   const {
     searchTerm,
     selectedSpecialty,
@@ -22,6 +26,36 @@ const DoctorsPage = () => {
     handleSort,
     clearFilters,
   } = useDoctorsFilter(doctors);
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <DoctorsHeader />
+        <Card>
+          <CardContent className="p-12 text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-teal-600" />
+            <p className="text-muted-foreground">Loading doctors...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <DoctorsHeader />
+        <Card>
+          <CardContent className="p-12 text-center">
+            <p className="text-red-600 mb-4">Failed to load doctors</p>
+            <p className="text-muted-foreground">
+              Please try refreshing the page
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

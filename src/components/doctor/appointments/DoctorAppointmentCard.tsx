@@ -18,21 +18,18 @@ import {
   MoreHorizontal,
   CheckCircle,
   XCircle,
-  RotateCcw,
   User,
 } from "lucide-react";
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case "pending":
-      return "bg-blue-100 text-blue-700 hover:bg-blue-200";
-    case "upcoming":
+    case "CONFIRMED":
       return "bg-green-100 text-green-700 hover:bg-green-200";
-    case "completed":
+    case "COMPLETED":
       return "bg-gray-100 text-gray-700 hover:bg-gray-200";
-    case "cancelled":
+    case "CANCELLED":
       return "bg-red-100 text-red-700 hover:bg-red-200";
-    case "rescheduled":
+    case "PENDING":
       return "bg-yellow-100 text-yellow-700 hover:bg-yellow-200";
     default:
       return "bg-gray-100 text-gray-700 hover:bg-gray-200";
@@ -86,11 +83,11 @@ export default function DoctorAppointmentCard({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      {appointment.status === "pending" && (
+                      {appointment.status === "PENDING" && (
                         <>
                           <DropdownMenuItem
                             onClick={() =>
-                              onStatusChange(appointment.id, "upcoming")
+                              onStatusChange(appointment.id, "CONFIRMED")
                             }
                           >
                             <CheckCircle className="h-4 w-4 mr-2" />
@@ -98,15 +95,7 @@ export default function DoctorAppointmentCard({
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() =>
-                              onStatusChange(appointment.id, "rescheduled")
-                            }
-                          >
-                            <RotateCcw className="h-4 w-4 mr-2" />
-                            Reschedule
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() =>
-                              onStatusChange(appointment.id, "cancelled")
+                              onStatusChange(appointment.id, "CANCELLED")
                             }
                           >
                             <XCircle className="h-4 w-4 mr-2" />
@@ -114,23 +103,15 @@ export default function DoctorAppointmentCard({
                           </DropdownMenuItem>
                         </>
                       )}
-                      {appointment.status === "upcoming" && (
+                      {appointment.status === "CONFIRMED" && (
                         <>
                           <DropdownMenuItem
                             onClick={() =>
-                              onStatusChange(appointment.id, "completed")
+                              onStatusChange(appointment.id, "COMPLETED")
                             }
                           >
                             <CheckCircle className="h-4 w-4 mr-2" />
                             Mark Complete
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() =>
-                              onStatusChange(appointment.id, "rescheduled")
-                            }
-                          >
-                            <RotateCcw className="h-4 w-4 mr-2" />
-                            Reschedule
                           </DropdownMenuItem>
                         </>
                       )}
@@ -184,7 +165,7 @@ export default function DoctorAppointmentCard({
                       appointment.status.slice(1)}
                   </Badge>
 
-                  {appointment.status === "upcoming" && (
+                  {appointment.status === "CONFIRMED" && (
                     <div className="flex gap-2">
                       {appointment.type === "video" && (
                         <Button size="sm" variant="outline">
@@ -196,7 +177,7 @@ export default function DoctorAppointmentCard({
                         size="sm"
                         className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600"
                         onClick={() =>
-                          onStatusChange(appointment.id, "completed")
+                          onStatusChange(appointment.id, "COMPLETED")
                         }
                       >
                         <CheckCircle className="h-4 w-4 mr-2" />

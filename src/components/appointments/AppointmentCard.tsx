@@ -20,7 +20,7 @@ export default function AppointmentCard({
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "video":
+      case "VIDEO":
         return <Video className="h-4 w-4" />;
       default:
         return <MapPin className="h-4 w-4" />;
@@ -60,10 +60,8 @@ export default function AppointmentCard({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      {appointment.status === "upcoming" && (
+                      {appointment.status === "CONFIRMED" && (
                         <>
-                          <DropdownMenuItem>Reschedule</DropdownMenuItem>
-                          <DropdownMenuItem>Cancel</DropdownMenuItem>
                           <DropdownMenuItem>Add to Calendar</DropdownMenuItem>
                         </>
                       )}
@@ -82,13 +80,16 @@ export default function AppointmentCard({
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Clock className="h-4 w-4" />
-                    <span>
-                      {appointment.time} ({appointment.duration} min)
-                    </span>
+                    <span>{appointment.time} (30 min)</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     {getTypeIcon(appointment.type)}
-                    <span className="capitalize">{appointment.type}</span>
+                    <span className="capitalize">
+                      {appointment.type
+                        .toLocaleLowerCase()
+                        .split("_")
+                        .join("-")}
+                    </span>
                     {appointment.location && (
                       <span>• {appointment.location}</span>
                     )}

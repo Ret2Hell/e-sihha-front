@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { AI_SYMPTOM_CHECKER_CONSTANTS } from "@/constants/ai-symptom-checker";
 import { generateMessageId, isValidMessage, sanitizeInput } from "@/lib/utils";
+import { useAiSymptomsCheckerMutation } from "@/state/api";
 
 export const useAISymptomChecker = () => {
   const [messages, setMessages] = useState<Message[]>([
@@ -15,6 +16,8 @@ export const useAISymptomChecker = () => {
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  const [aiSymptomsChecker] = useAiSymptomsCheckerMutation();
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({
@@ -36,19 +39,22 @@ export const useAISymptomChecker = () => {
     async (
       symptoms: string
     ): Promise<{ recommendation: SpecialtyRecommendation }> => {
-      // Simulate API call
-      console.log("Analyzing symptoms:", symptoms);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      return {
-        recommendation: {
-          specialty: "General Practitioner",
-          reason:
-            "Based on your symptoms, a general practitioner would be the best starting point. They can evaluate your condition comprehensively and provide appropriate referrals to specialists if needed.",
-        },
-      };
+      try {
+        const result = await aiSymptomsChecker(symptoms).unwrap();
+        return {
+          recommendation: {
+            specialty: result.specialty || "General Practitioner",
+            reason:
+              result.reason ||
+              "Based on your symptoms, a general practitioner would be the best starting point. They can evaluate your condition comprehensively and provide appropriate referrals to specialists if needed.",
+          },
+        };
+      } catch (error) {
+        console.error("API Error:", error);
+        throw error;
+      }
     },
-    []
+    [aiSymptomsChecker]
   );
 
   const addMessage = useCallback(

@@ -2,16 +2,16 @@ import { useMemo } from "react";
 
 export function useDoctorAppointmentData(appointments: Appointment[]) {
   const appointmentData = useMemo(() => {
-    const pending = appointments.filter((apt) => apt.status === "pending");
+    const pending = appointments.filter((apt) => apt.status === "PENDING");
 
     const upcoming = appointments.filter(
-      (apt) => new Date(apt.date) >= new Date() && apt.status === "upcoming"
+      (apt) => new Date(apt.date) >= new Date() && apt.status === "CONFIRMED"
     );
 
     const past = appointments.filter(
       (apt) =>
         new Date(apt.date) < new Date() &&
-        (apt.status === "completed" || apt.status === "cancelled")
+        (apt.status === "COMPLETED" || apt.status === "CANCELLED")
     );
 
     return {
@@ -40,16 +40,16 @@ export function useDoctorAppointmentFilters(
     };
 
     // Get categorized appointments directly
-    const pending = appointments.filter((apt) => apt.status === "pending");
+    const pending = appointments.filter((apt) => apt.status === "PENDING");
 
     const upcoming = appointments.filter(
-      (apt) => new Date(apt.date) >= new Date() && apt.status === "upcoming"
+      (apt) => new Date(apt.date) >= new Date() && apt.status === "CONFIRMED"
     );
 
     const past = appointments.filter(
       (apt) =>
         new Date(apt.date) < new Date() &&
-        (apt.status === "completed" || apt.status === "cancelled")
+        (apt.status === "COMPLETED" || apt.status === "CANCELLED")
     );
 
     return {

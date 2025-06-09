@@ -2,9 +2,11 @@ import { useMemo } from "react";
 
 export function useAppointmentData(appointments: Appointment[]) {
   const appointmentCounts = useMemo(() => {
-    const upcoming = appointments.filter((apt) => apt.status === "upcoming");
+    const upcoming = appointments.filter(
+      (apt) => apt.status === "CONFIRMED" || apt.status === "PENDING"
+    );
     const past = appointments.filter(
-      (apt) => apt.status === "completed" || apt.status === "cancelled"
+      (apt) => apt.status === "COMPLETED" || apt.status === "CANCELLED"
     );
 
     return {

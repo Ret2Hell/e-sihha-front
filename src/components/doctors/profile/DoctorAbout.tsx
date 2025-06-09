@@ -14,7 +14,7 @@ const DoctorAbout: React.FC<DoctorAboutProps> = ({ doctor }) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-muted-foreground leading-relaxed">{doctor.about}</p>
+        <p className="text-muted-foreground leading-relaxed">{doctor.bio}</p>
       </CardContent>
     </Card>
   );

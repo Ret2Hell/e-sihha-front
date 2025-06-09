@@ -1,9 +1,11 @@
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { CONSULTATION_TYPES } from "@/constants/appointment-booking";
+import { useCreateAppointmentMutation } from "@/state/api";
 
-export function useBookingForm() {
+export function useBookingForm(doctorId: string, doctorName: string) {
   const router = useRouter();
+  const [createAppointment] = useCreateAppointmentMutation();
 
   const [bookingState, setBookingState] = useState<BookingState>({
     selectedDate: new Date(),
@@ -57,18 +59,38 @@ export function useBookingForm() {
 
     updateBookingState({ isBooking: true });
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      // Format the appointment data according to the API requirements
+      const appointmentData = {
+        doctorId,
+        doctorName,
+        date: bookingState.selectedDate.toISOString(),
+        time: bookingState.selectedTime,
+        price: totalPrice,
+        type: bookingState.selectedType === "in-person" ? "IN_PERSON" : "VIDEO",
+      };
 
-    updateBookingState({ isBooking: false, isBooked: true });
+      await createAppointment(appointmentData).unwrap();
 
-    // Redirect to appointments page after 3 seconds
-    setTimeout(() => {
-      router.push("/user/appointments");
-    }, 3000);
+      updateBookingState({ isBooking: false, isBooked: true });
+
+      // Redirect to appointments page after 3 seconds
+      setTimeout(() => {
+        router.push("/user/appointments");
+      }, 3000);
+    } catch (error) {
+      console.error("Failed to create appointment:", error);
+      updateBookingState({ isBooking: false });
+      // You might want to show an error message to the user here
+    }
   }, [
     bookingState.selectedDate,
     bookingState.selectedTime,
+    bookingState.selectedType,
+    doctorId,
+    doctorName,
+    totalPrice,
+    createAppointment,
     router,
     updateBookingState,
   ]);

@@ -9,15 +9,15 @@ export default function DoctorAppointmentStats({
   );
 
   const confirmedToday = todayAppointments.filter(
-    (apt) => apt.status === "upcoming"
+    (apt) => apt.status === "CONFIRMED"
   );
 
   const pendingAppointments = appointments.filter(
-    (apt) => apt.status === "pending"
+    (apt) => apt.status === "PENDING"
   );
 
   const completedAppointments = appointments.filter(
-    (apt) => apt.status === "completed"
+    (apt) => apt.status === "COMPLETED"
   );
 
   const totalRevenue = completedAppointments.reduce(

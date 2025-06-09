@@ -2,12 +2,10 @@
 
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { useDoctor } from "@/hooks/use-doctor";
 import { useBookingForm } from "@/hooks/use-booking-form";
-import NotFound from "@/components/NotFound";
 import {
   ProgressSteps,
   ConsultationTypeStep,
@@ -17,11 +15,14 @@ import {
   AppointmentSummary,
   BookingSuccess,
 } from "@/components/booking";
+import { useGetDoctorByIdQuery } from "@/state/api";
+import BackButton from "@/components/BackButton";
+import { Card, CardContent } from "@/components/ui/card";
 
 const BookAppointmentPage = () => {
   const params = useParams();
   const doctorId = params.id as string;
-  const { doctor } = useDoctor(doctorId);
+  const { data: doctor, isLoading, error } = useGetDoctorByIdQuery(doctorId);
 
   const {
     bookingState,
@@ -31,17 +32,36 @@ const BookAppointmentPage = () => {
     prevStep,
     canProceedToNextStep,
     handleBookAppointment,
-  } = useBookingForm();
+  } = useBookingForm(doctorId, doctor?.name || "");
 
-  if (!doctor) {
+  if (isLoading) {
     return (
-      <NotFound
-        title="Doctor Not Found"
-        backLink={{
-          href: "/user/doctors",
-          text: "Back to Doctors",
-        }}
-      />
+      <div className="space-y-6">
+        <BackButton href="/user/doctors">Back to Doctors</BackButton>
+        <Card>
+          <CardContent className="p-12 text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-teal-600" />
+            <p className="text-muted-foreground">Loading doctor profile...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (error || !doctor) {
+    return (
+      <div className="space-y-6">
+        <BackButton href="/user/doctors">Back to Doctors</BackButton>
+        <Card>
+          <CardContent className="p-12 text-center">
+            <p className="text-red-600 mb-4">Doctor not found</p>
+            <p className="text-muted-foreground">
+              The doctor you&apos;re looking for doesn&apos;t exist or has been
+              removed
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 

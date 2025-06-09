@@ -6,7 +6,7 @@ export default function AppointmentsHistory({
 }: AppointmentsHistoryProps) {
   const getStatusVariant = (status: string) => {
     switch (status) {
-      case "completed":
+      case "COMPLETED":
         return "default";
       case "scheduled":
         return "secondary";
@@ -17,7 +17,7 @@ export default function AppointmentsHistory({
 
   const getStatusClassName = (status: string) => {
     switch (status) {
-      case "completed":
+      case "COMPLETED":
         return "bg-green-100 text-green-700";
       case "scheduled":
         return "bg-blue-100 text-blue-700";

@@ -4,25 +4,60 @@ import { Calendar } from "lucide-react";
 export default function AppointmentStats({
   appointments,
 }: AppointmentStatsProps) {
+  console.log("Appointments:", appointments);
   const upcomingCount = appointments.filter(
-    (apt) => apt.status === "upcoming"
+    (apt) => apt.status === "CONFIRMED"
   ).length;
   const completedCount = appointments.filter(
-    (apt) => apt.status === "completed"
+    (apt) => apt.status === "COMPLETED"
   ).length;
   const cancelledCount = appointments.filter(
-    (apt) => apt.status === "cancelled"
+    (apt) => apt.status === "CANCELLED"
   ).length;
   const totalSpent = appointments
-    .filter((apt) => apt.status === "completed")
+    .filter((apt) => apt.status === "COMPLETED")
     .reduce((sum, apt) => sum + apt.price, 0);
+
+  // Find the next upcoming appointment
+  const upcomingAppointments = appointments
+    .filter((apt) => apt.status === "CONFIRMED")
+    .sort((a, b) => {
+      const dateA = new Date(`${a.date} ${a.time}`);
+      const dateB = new Date(`${b.date} ${b.time}`);
+      return dateA.getTime() - dateB.getTime();
+    });
+
+  const nextAppointment = upcomingAppointments[0];
+
+  const getNextAppointmentSubtitle = () => {
+    if (!nextAppointment) return "No upcoming appointments";
+
+    const appointmentDate = new Date(nextAppointment.date);
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    let dateText = "";
+    if (appointmentDate.toDateString() === today.toDateString()) {
+      dateText = "Today";
+    } else if (appointmentDate.toDateString() === tomorrow.toDateString()) {
+      dateText = "Tomorrow";
+    } else {
+      dateText = appointmentDate.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      });
+    }
+
+    return `Next: ${dateText}, ${nextAppointment.time}`;
+  };
 
   const statsCards = [
     {
       title: "Upcoming",
       value: upcomingCount,
       color: "text-blue-600",
-      subtitle: "Next: Tomorrow, 10:00 AM",
+      subtitle: getNextAppointmentSubtitle(),
     },
     {
       title: "Completed",

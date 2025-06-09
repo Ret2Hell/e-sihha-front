@@ -8,7 +8,7 @@ import { InfoItem } from "@/components/InfoItems";
 import { getInitials } from "@/lib/utils";
 
 const DoctorHeader: React.FC<DoctorHeaderProps> = ({ doctor }) => {
-  const isAvailableToday = doctor.availability === "Available Today";
+  const isAvailableToday = doctor.availability.isAvailable;
 
   return (
     <Card>
@@ -34,9 +34,9 @@ const DoctorHeader: React.FC<DoctorHeaderProps> = ({ doctor }) => {
               <InfoItem
                 icon={Clock}
                 label=""
-                value={`${doctor.experience} years experience`}
+                value={`${10} years experience`}
               />
-              <InfoItem icon={MapPin} label="" value={doctor.location} />
+              <InfoItem icon={MapPin} label="" value={doctor.address} />
             </div>
 
             <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-6">
@@ -46,15 +46,13 @@ const DoctorHeader: React.FC<DoctorHeaderProps> = ({ doctor }) => {
                   isAvailableToday ? "bg-green-100 text-green-700" : ""
                 }
               >
-                {doctor.availability}
+                {isAvailableToday ? "Available Today" : "Not Available Today"}
               </Badge>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <div className="text-center">
-                <div className="text-2xl font-bold text-teal-600">
-                  {doctor.price} DT
-                </div>
+                <div className="text-2xl font-bold text-teal-600">80 DT</div>
                 <div className="text-sm text-muted-foreground">
                   per consultation
                 </div>

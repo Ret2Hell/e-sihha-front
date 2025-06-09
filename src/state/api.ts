@@ -1,28 +1,39 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BaseQueryApi, FetchArgs } from "@reduxjs/toolkit/query";
+import { toast } from "sonner";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Clerk } from "@clerk/clerk-js";
-import { toast } from "sonner";
+
+const getToken = async () => {
+  if (typeof window !== "undefined" && window.Clerk) {
+    const token = await window.Clerk.session?.getToken();
+    console.log("Token:", token); // Debugging line to check the token
+    return token ? `Bearer ${token}` : "";
+  }
+  return "";
+};
 
 const customBaseQuery = async (
   args: string | FetchArgs,
   api: BaseQueryApi,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   extraOptions: any
 ) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     prepareHeaders: async (headers) => {
-      const token = await window.Clerk?.session?.getToken();
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
+      if (typeof window !== "undefined" && window.Clerk) {
+        const token = await getToken();
+        if (token) {
+          headers.set("Authorization", token);
+        }
       }
       return headers;
     },
   });
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result: any = await baseQuery(args, api, extraOptions);
+    console.log("API Result:", result);
 
     if (result.error) {
       const errorData = result.error.data;
@@ -60,10 +71,98 @@ const customBaseQuery = async (
 export const api = createApi({
   baseQuery: customBaseQuery,
   reducerPath: "api",
-  tagTypes: [],
-  endpoints: () => ({
-    // Define your endpoints here
+  tagTypes: ["Appointment", "Doctor"],
+  endpoints: (builder) => ({
+    /*
+    ==========================
+    AI SYMPTOMS CHECKER ENDPOINT
+    ==========================
+    */
+    aiSymptomsChecker: builder.mutation({
+      query: (symptoms) => ({
+        url: "/symptom-checker",
+        method: "POST",
+        body: { symptoms },
+      }),
+    }),
+
+    /*
+    ==========================
+    APPOINTMENTS ENDPOINTS
+    ==========================
+    */
+    getAppointments: builder.query({
+      query: () => ({
+        url: "/appointments",
+        method: "GET",
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }: { id: string }) => ({
+                type: "Appointment" as const,
+                id,
+              })),
+              { type: "Appointment", id: "LIST" },
+            ]
+          : [{ type: "Appointment", id: "LIST" }],
+    }),
+
+    getAppointmentsByDateAndDoctor: builder.query({
+      query: ({ date, doctorId }: { date: string; doctorId: string }) => ({
+        url: `/appointments?date=${date}&doctorId=${doctorId}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, { date, doctorId }) => [
+        { type: "Appointment", id: `${doctorId}-${date}` },
+      ],
+    }),
+
+    createAppointment: builder.mutation({
+      query: (appointmentData) => ({
+        url: "/appointments",
+        method: "POST",
+        body: appointmentData,
+      }),
+      invalidatesTags: [{ type: "Appointment", id: "LIST" }],
+    }),
+
+    /*
+    ==========================
+    DOCTORS ENDPOINTS
+    ========================== 
+    */
+    getDoctors: builder.query({
+      query: () => ({
+        url: "/doctors",
+        method: "GET",
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }: { id: string }) => ({
+                type: "Doctor" as const,
+                id,
+              })),
+              { type: "Doctor", id: "LIST" },
+            ]
+          : [{ type: "Doctor", id: "LIST" }],
+    }),
+    getDoctorById: builder.query({
+      query: (id) => ({
+        url: `/doctors/${id}/profile`,
+        method: "GET",
+      }),
+      providesTags: (result, error, id) => [{ type: "Doctor", id }],
+    }),
   }),
 });
 
-export const {} = api;
+export const {
+  useAiSymptomsCheckerMutation,
+  useGetAppointmentsQuery,
+  useGetAppointmentsByDateAndDoctorQuery,
+  useCreateAppointmentMutation,
+  useGetDoctorsQuery,
+  useGetDoctorByIdQuery,
+} = api;
