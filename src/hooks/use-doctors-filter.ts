@@ -10,7 +10,7 @@ export const useDoctorsFilter = (initialDoctors: Doctor[]) => {
       const matchesSearch =
         doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         doctor.specialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        doctor.location.toLowerCase().includes(searchTerm.toLowerCase());
+        doctor.address.toLowerCase().includes(searchTerm.toLowerCase());
 
       const matchesSpecialty =
         selectedSpecialty === "All Specialties" ||
