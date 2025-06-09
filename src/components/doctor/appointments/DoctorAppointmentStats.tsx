@@ -4,9 +4,15 @@ import { Calendar, Clock, CheckCircle } from "lucide-react";
 export default function DoctorAppointmentStats({
   appointments,
 }: DoctorAppointmentStatsProps) {
-  const todayAppointments = appointments.filter(
-    (apt) => apt.date === new Date().toISOString().split("T")[0]
-  );
+  const todayAppointments = appointments.filter((apt) => {
+    const today = new Date();
+    const aptDate = new Date(apt.date);
+    return (
+      aptDate.getFullYear() === today.getFullYear() &&
+      aptDate.getMonth() === today.getMonth() &&
+      aptDate.getDate() - 1 === today.getDate()
+    );
+  });
 
   const confirmedToday = todayAppointments.filter(
     (apt) => apt.status === "CONFIRMED"

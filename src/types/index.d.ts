@@ -174,7 +174,7 @@ declare global {
     selectedDate: Date | undefined;
     selectedTime: string;
     selectedType: string;
-    notes: string;
+    patientName: string;
   }
 
   export interface BookingState extends BookingFormData {
@@ -195,6 +195,7 @@ declare global {
     selectedTime: string;
     selectedType: string;
     totalPrice: number;
+    patientName: string;
   }
 
   interface AppointmentSummaryProps {
@@ -206,10 +207,10 @@ declare global {
   }
 
   interface ConfirmationStepProps {
-    notes: string;
+    patientName: string;
     totalPrice: number;
     isBooking: boolean;
-    onNotesChange: (notes: string) => void;
+    onPatientNameChange: (patientName: string) => void;
     onConfirmBooking: () => void;
   }
 

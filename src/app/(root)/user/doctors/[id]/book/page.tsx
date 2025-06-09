@@ -32,7 +32,7 @@ const BookAppointmentPage = () => {
     prevStep,
     canProceedToNextStep,
     handleBookAppointment,
-  } = useBookingForm(doctorId, doctor?.name || "");
+  } = useBookingForm(doctorId, doctor?.name || "", doctor?.email || "");
 
   if (isLoading) {
     return (
@@ -73,6 +73,7 @@ const BookAppointmentPage = () => {
         selectedTime={bookingState.selectedTime}
         selectedType={bookingState.selectedType}
         totalPrice={totalPrice}
+        patientName={bookingState.patientName}
       />
     );
   }
@@ -146,13 +147,15 @@ const BookAppointmentPage = () => {
                 />
               )}
 
-              {/* Step 4: Notes and Confirmation */}
+              {/* Step 4: Patient Name and Confirmation */}
               {bookingState.currentStep === 4 && (
                 <ConfirmationStep
-                  notes={bookingState.notes}
+                  patientName={bookingState.patientName}
                   totalPrice={totalPrice}
                   isBooking={bookingState.isBooking}
-                  onNotesChange={(notes) => updateBookingState({ notes })}
+                  onPatientNameChange={(patientName) =>
+                    updateBookingState({ patientName })
+                  }
                   onConfirmBooking={handleBookAppointment}
                 />
               )}

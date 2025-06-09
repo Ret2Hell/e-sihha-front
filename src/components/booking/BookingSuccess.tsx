@@ -10,6 +10,7 @@ export default function BookingSuccess({
   selectedTime,
   selectedType,
   totalPrice,
+  patientName,
 }: BookingSuccessProps) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-gray-900 dark:to-gray-800">
@@ -43,6 +44,10 @@ export default function BookingSuccess({
               <div className="bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-gray-800 dark:to-gray-700 rounded-xl p-6 mb-6 text-left">
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
+                    <span className="font-medium">Patient:</span>
+                    <span>{patientName}</span>
+                  </div>
+                  <div className="flex justify-between">
                     <span className="font-medium">Date:</span>
                     <span>{selectedDate?.toLocaleDateString()}</span>
                   </div>
@@ -63,7 +68,7 @@ export default function BookingSuccess({
                   <div className="flex justify-between">
                     <span className="font-medium">Total:</span>
                     <span className="font-bold text-teal-600">
-                      ${totalPrice}
+                      {totalPrice} DT
                     </span>
                   </div>
                 </div>

@@ -9,9 +9,7 @@ export function useDoctorAppointmentData(appointments: Appointment[]) {
     );
 
     const past = appointments.filter(
-      (apt) =>
-        new Date(apt.date) < new Date() &&
-        (apt.status === "COMPLETED" || apt.status === "CANCELLED")
+      (apt) => apt.status === "COMPLETED" || apt.status === "CANCELLED"
     );
 
     return {

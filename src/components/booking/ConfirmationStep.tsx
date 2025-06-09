@@ -9,15 +9,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CreditCard, Shield } from "lucide-react";
 
 export default function ConfirmationStep({
-  notes,
+  patientName,
   totalPrice,
   isBooking,
-  onNotesChange,
+  onPatientNameChange,
   onConfirmBooking,
 }: ConfirmationStepProps) {
   return (
@@ -31,22 +31,22 @@ export default function ConfirmationStep({
     >
       <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm">
         <CardHeader className="text-center pb-6">
-          <CardTitle className="text-2xl">Additional Information</CardTitle>
+          <CardTitle className="text-2xl">Patient Information</CardTitle>
           <CardDescription>
-            Any specific concerns or symptoms you&apos;d like to discuss?
+            Please provide the patient&apos;s full name for the appointment
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Label htmlFor="notes" className="text-base font-medium">
-            Notes (Optional)
+          <Label htmlFor="patientName" className="text-base font-medium">
+            Patient Name <span className="text-red-500">*</span>
           </Label>
-          <Textarea
-            id="notes"
-            placeholder="Describe your symptoms, medical history, or any specific concerns you'd like to discuss during the consultation..."
-            value={notes}
-            onChange={(e) => onNotesChange(e.target.value)}
-            className="mt-3 min-h-[120px] resize-none"
-            rows={5}
+          <Input
+            id="patientName"
+            placeholder="Enter patient's full name"
+            value={patientName}
+            onChange={(e) => onPatientNameChange(e.target.value)}
+            className="mt-3"
+            required
           />
         </CardContent>
       </Card>

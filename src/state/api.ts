@@ -127,6 +127,47 @@ export const api = createApi({
       invalidatesTags: [{ type: "Appointment", id: "LIST" }],
     }),
 
+    getAppointmentsByEmail: builder.query({
+      query: (email) => ({
+        url: `/appointments?email=${email}`,
+        method: "GET",
+      }),
+      providesTags: [{ type: "Appointment", id: "LIST" }],
+    }),
+
+    acceptAppointment: builder.mutation({
+      query: (id) => ({
+        url: `doctors/appointments/${id}/accept`,
+        method: "PATCH",
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: "Appointment", id: "LIST" },
+        { type: "Appointment", id },
+      ],
+    }),
+
+    cancelAppointment: builder.mutation({
+      query: (id) => ({
+        url: `doctors/appointments/${id}/cancel`,
+        method: "PATCH",
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: "Appointment", id: "LIST" },
+        { type: "Appointment", id },
+      ],
+    }),
+
+    completeAppointment: builder.mutation({
+      query: (id) => ({
+        url: `doctors/appointments/${id}/complete`,
+        method: "PATCH",
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: "Appointment", id: "LIST" },
+        { type: "Appointment", id },
+      ],
+    }),
+
     /*
     ==========================
     DOCTORS ENDPOINTS
@@ -162,7 +203,11 @@ export const {
   useAiSymptomsCheckerMutation,
   useGetAppointmentsQuery,
   useGetAppointmentsByDateAndDoctorQuery,
+  useGetAppointmentsByEmailQuery,
   useCreateAppointmentMutation,
+  useAcceptAppointmentMutation,
+  useCancelAppointmentMutation,
+  useCompleteAppointmentMutation,
   useGetDoctorsQuery,
   useGetDoctorByIdQuery,
 } = api;

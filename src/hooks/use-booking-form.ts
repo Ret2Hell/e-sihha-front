@@ -3,7 +3,11 @@ import { useRouter } from "next/navigation";
 import { CONSULTATION_TYPES } from "@/constants/appointment-booking";
 import { useCreateAppointmentMutation } from "@/state/api";
 
-export function useBookingForm(doctorId: string, doctorName: string) {
+export function useBookingForm(
+  doctorId: string,
+  doctorName: string,
+  email: string
+) {
   const router = useRouter();
   const [createAppointment] = useCreateAppointmentMutation();
 
@@ -11,7 +15,7 @@ export function useBookingForm(doctorId: string, doctorName: string) {
     selectedDate: new Date(),
     selectedTime: "",
     selectedType: "in-person",
-    notes: "",
+    patientName: "",
     isBooking: false,
     isBooked: false,
     currentStep: 1,
@@ -48,7 +52,7 @@ export function useBookingForm(doctorId: string, doctorName: string) {
       case 3:
         return !!bookingState.selectedTime;
       case 4:
-        return true;
+        return !!bookingState.patientName.trim();
       default:
         return false;
     }
@@ -64,7 +68,11 @@ export function useBookingForm(doctorId: string, doctorName: string) {
       const appointmentData = {
         doctorId,
         doctorName,
-        date: bookingState.selectedDate.toISOString(),
+        email,
+        patientName: bookingState.patientName,
+        date: new Date(
+          bookingState.selectedDate.getTime() + 24 * 60 * 60 * 1000
+        ).toISOString(),
         time: bookingState.selectedTime,
         price: totalPrice,
         type: bookingState.selectedType === "in-person" ? "IN_PERSON" : "VIDEO",
@@ -87,8 +95,10 @@ export function useBookingForm(doctorId: string, doctorName: string) {
     bookingState.selectedDate,
     bookingState.selectedTime,
     bookingState.selectedType,
+    bookingState.patientName,
     doctorId,
     doctorName,
+    email,
     totalPrice,
     createAppointment,
     router,

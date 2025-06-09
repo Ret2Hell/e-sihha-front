@@ -1,9 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Plus, Clock, Calendar, LucideIcon } from "lucide-react";
+import { Clock, Calendar, LucideIcon } from "lucide-react";
 import DoctorAppointmentCard from "./DoctorAppointmentCard";
-import Link from "next/link";
 
 export default function DoctorAppointmentTabs({
   activeTab,
@@ -17,7 +15,6 @@ export default function DoctorAppointmentTabs({
     icon: Icon,
     title,
     description,
-    showButton = false,
   }: {
     icon: LucideIcon;
     title: string;
@@ -29,7 +26,7 @@ export default function DoctorAppointmentTabs({
         <Icon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
         <h3 className="text-lg font-semibold mb-2">{title}</h3>
         <p className="text-muted-foreground mb-4">{description}</p>
-        {showButton && (
+        {/* {showButton && (
           <Button
             className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600"
             asChild
@@ -39,7 +36,7 @@ export default function DoctorAppointmentTabs({
               Add Appointment
             </Link>
           </Button>
-        )}
+        )} */}
       </CardContent>
     </Card>
   );

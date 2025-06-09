@@ -20,6 +20,7 @@ import {
   XCircle,
   User,
 } from "lucide-react";
+import { capitalizeStatus } from "@/lib/utils";
 
 const getStatusColor = (status: string) => {
   switch (status) {
@@ -125,18 +126,24 @@ export default function DoctorAppointmentCard({
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Calendar className="h-4 w-4" />
                     <span>
-                      {new Date(appointment.date).toLocaleDateString()}
+                      {new Date(
+                        new Date(appointment.date).getTime() -
+                          24 * 60 * 60 * 1000
+                      ).toLocaleDateString()}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Clock className="h-4 w-4" />
-                    <span>
-                      {appointment.time} ({appointment.duration} min)
-                    </span>
+                    <span>{appointment.time} (30 min)</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     {getTypeIcon(appointment.type)}
-                    <span className="capitalize">{appointment.type}</span>
+                    <span className="capitalize">
+                      {appointment.type
+                        .toLocaleLowerCase()
+                        .split("_")
+                        .join("-")}
+                    </span>
                     {appointment.location && (
                       <span>• {appointment.location}</span>
                     )}
@@ -161,8 +168,7 @@ export default function DoctorAppointmentCard({
 
                 <div className="flex items-center justify-between">
                   <Badge className={getStatusColor(appointment.status)}>
-                    {appointment.status.charAt(0).toUpperCase() +
-                      appointment.status.slice(1)}
+                    {capitalizeStatus(appointment.status)}
                   </Badge>
 
                   {appointment.status === "CONFIRMED" && (

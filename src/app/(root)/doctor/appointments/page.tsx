@@ -1,29 +1,102 @@
 "use client";
 
 import { useState } from "react";
-import { mockAppointments } from "@/data/appointments-data";
-import { useDoctorAppointmentFilters } from "@/hooks/use-doctor-appointments";
+import { useDoctorAppointmentData } from "@/hooks/use-doctor-appointments";
 import {
   DoctorAppointmentHeader,
   DoctorAppointmentStats,
   DoctorAppointmentTabs,
-  DoctorAppointmentFilters,
 } from "@/components/doctor/appointments";
+import {
+  useGetAppointmentsByEmailQuery,
+  useAcceptAppointmentMutation,
+  useCancelAppointmentMutation,
+  useCompleteAppointmentMutation,
+} from "@/state/api";
+import { useUser } from "@clerk/nextjs";
 
 export default function DoctorAppointmentsPage() {
+  const { user } = useUser();
   const [activeTab, setActiveTab] = useState("pending");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [typeFilter, setTypeFilter] = useState("all");
 
-  const { filteredPending, filteredUpcoming, filteredPast } =
-    useDoctorAppointmentFilters(mockAppointments, statusFilter, typeFilter);
+  // Fetch appointments from API
+  const {
+    data: appointments = [],
+    isLoading,
+    error,
+  } = useGetAppointmentsByEmailQuery(user?.emailAddresses[0].emailAddress);
 
-  const handleStatusChange = (appointmentId: string, newStatus: string) => {
-    console.log(
-      `Updating appointment ${appointmentId} to status: ${newStatus}`
-    );
+  // Mutation hooks for appointment status changes
+  const [acceptAppointment] = useAcceptAppointmentMutation();
+  const [cancelAppointment] = useCancelAppointmentMutation();
+  const [completeAppointment] = useCompleteAppointmentMutation();
+
+  const { pendingAppointments, upcomingAppointments, pastAppointments } =
+    useDoctorAppointmentData(appointments);
+
+  const handleStatusChange = async (
+    appointmentId: string,
+    newStatus: string
+  ) => {
+    try {
+      if (newStatus === "CONFIRMED") {
+        await acceptAppointment(appointmentId).unwrap();
+        console.log(`Appointment ${appointmentId} accepted successfully`);
+      } else if (newStatus === "CANCELLED") {
+        await cancelAppointment(appointmentId).unwrap();
+        console.log(`Appointment ${appointmentId} cancelled successfully`);
+      } else if (newStatus === "COMPLETED") {
+        await completeAppointment(appointmentId).unwrap();
+        console.log(`Appointment ${appointmentId} completed successfully`);
+      } else {
+        console.log(
+          `Status change to ${newStatus} not handled by API endpoints`
+        );
+      }
+    } catch (error) {
+      console.error(`Failed to update appointment ${appointmentId}:`, error);
+    }
   };
 
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <DoctorAppointmentHeader
+          title="Appointments"
+          description="Manage your patient appointments and schedule"
+        />
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading appointments...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <DoctorAppointmentHeader
+          title="Appointments"
+          description="Manage your patient appointments and schedule"
+        />
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <p className="text-destructive mb-2">Failed to load appointments</p>
+            <p className="text-muted-foreground text-sm">
+              Please try refreshing the page or contact support if the problem
+              persists.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  console.log("Appointments data:", appointments);
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -33,28 +106,16 @@ export default function DoctorAppointmentsPage() {
       />
 
       {/* Stats Cards */}
-      <DoctorAppointmentStats appointments={mockAppointments} />
+      <DoctorAppointmentStats appointments={appointments} />
 
       {/* Appointments Tabs */}
       <div className="space-y-6">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="flex items-center">
-            <h2 className="text-lg font-semibold mr-4">Filter by:</h2>
-          </div>
-          <DoctorAppointmentFilters
-            statusFilter={statusFilter}
-            typeFilter={typeFilter}
-            onStatusFilterChange={setStatusFilter}
-            onTypeFilterChange={setTypeFilter}
-          />
-        </div>
-
         <DoctorAppointmentTabs
           activeTab={activeTab}
           onTabChange={setActiveTab}
-          pendingAppointments={filteredPending}
-          upcomingAppointments={filteredUpcoming}
-          pastAppointments={filteredPast}
+          pendingAppointments={pendingAppointments}
+          upcomingAppointments={upcomingAppointments}
+          pastAppointments={pastAppointments}
           onStatusChange={handleStatusChange}
         />
       </div>
